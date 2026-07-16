@@ -1,47 +1,86 @@
-function generateAudit() {
+function sendMessage(){
 
-let business = document.getElementById("businessName").value;
+let input = document.getElementById("userInput");
 
-let problems = document.querySelectorAll(".problem");
-
-let issues = 0;
+let message = input.value;
 
 
-problems.forEach(problem => {
-
-    if(problem.checked){
-        issues++;
-    }
-
-});
+if(message === "") return;
 
 
-let score = 100 - (issues * 15);
+addMessage(message,"user");
 
 
-if(score < 0){
-    score = 0;
+input.value="";
+
+
+setTimeout(()=>{
+
+let response = getResponse(message);
+
+addMessage(response,"bot");
+
+
+},500);
+
+
 }
 
 
-document.getElementById("result").innerHTML = `
 
-<h2>${business} Website Audit</h2>
+function addMessage(text,type){
 
-<p>
-Website Score:
-<strong>${score}/100</strong>
-</p>
+let chat=document.getElementById("chat");
 
-<p>
-Found ${issues} issues that could be hurting customer conversions.
-</p>
 
-<p>
-Forge Digital Recommendation:
-Improve design, trust signals, and calls-to-action to help turn visitors into customers.
-</p>
+let div=document.createElement("div");
 
-`;
+div.className="message "+type;
+
+div.innerText=text;
+
+
+chat.appendChild(div);
+
+
+chat.scrollTop=chat.scrollHeight;
+
+}
+
+
+
+
+function getResponse(message){
+
+
+message = message.toLowerCase();
+
+
+
+if(message.includes("client")){
+
+return "Try finding businesses with outdated websites and offer a free redesign idea.";
+
+}
+
+
+
+if(message.includes("website")){
+
+return "A good business website needs trust, clear services, strong calls-to-action, and mobile design.";
+
+}
+
+
+
+if(message.includes("money")){
+
+return "Focus on creating value. More customers and better solutions lead to more revenue.";
+
+}
+
+
+
+return "That's a great idea. Think about how you can turn that into a system for Forge Digital.";
 
 }
